@@ -30,8 +30,6 @@ def put_buckets3_policy(listed_buckets):
 
 
 if __name__ == "__main__":
-    statement = '{"Sid": "Statement1","Effect": "Deny","Principal": "*","Action": "s3:*","Resource": ["arn:aws:s3:::' + name + '",' + '"arn:aws:s3:::' + name + '/*"],"Condition": {"Bool": {"aws:SecureTransport": "false"} } }'
-
     listed_buckets = list_buckets_names()
     #listed_buckets = ["taynan-lab"] ## list definition for manual test
     try:
