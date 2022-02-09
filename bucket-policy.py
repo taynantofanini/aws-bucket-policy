@@ -30,6 +30,7 @@ def put_buckets3_policy(listed_buckets):
 
 
 if __name__ == "__main__":
+    
     listed_buckets = list_buckets_names()
     #listed_buckets = ["taynan-lab"] ## list definition for manual test
     try:
