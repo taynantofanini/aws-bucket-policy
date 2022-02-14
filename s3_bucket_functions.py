@@ -29,15 +29,15 @@ def put_buckets3_policy(listed_buckets):
         response = clients3.put_bucket_policy(Bucket=name, Policy=policy)
 
 def get_buckets3_logging(listed_buckets):
-    bucket_log_name = "lab-taynan-logs"
+    target_bucket = "lab-taynan-logs"
     for bucket in listed_buckets:
         bucket_logging = clients3.get_bucket_logging(Bucket=bucket)
         if "LoggingEnabled" not in bucket_logging.keys():
-            put_buckets3_logging(bucket, bucket_log_name)
+            put_buckets3_logging(bucket, target_bucket)
             print("Logging habilitado para o bucket '{}' ".format(bucket))
         else:
-            if bucket_logging["LoggingEnabled"]["TargetBucket"] != bucket_log_name:
-                put_buckets3_logging(bucket, bucket_log_name)
+            if bucket_logging["LoggingEnabled"]["TargetBucket"] != target_bucket:
+                put_buckets3_logging(bucket, target_bucket)
                 print("Logging atualizado para o bucket '{}' ".format(bucket))
     print("Todos os buckets foram atualizados e estão com o 'Server Access Logging' ativos e atualizados")
 
@@ -57,12 +57,12 @@ def put_buckets3_encryption(listed_buckets):
         response = clients3.put_bucket_encryption(Bucket=name, ServerSideEncryptionConfiguration=sseconfig)
 
 
-def put_buckets3_logging(bucket, bucket_log_name):
+def put_buckets3_logging(bucket, target_bucket):
     bucket_logging_put = clients3.put_bucket_logging(
                 Bucket=bucket, 
                 BucketLoggingStatus={
                     "LoggingEnabled": {
-                        "TargetBucket": bucket_log_name,
+                        "TargetBucket": target_bucket,
                         "TargetPrefix": bucket
                     }
                 })
