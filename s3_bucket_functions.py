@@ -41,6 +41,22 @@ def get_buckets3_logging(listed_buckets):
                 print("Logging atualizado para o bucket '{}' ".format(bucket))
     print("Todos os buckets foram atualizados e estão com o 'Server Access Logging' ativos e atualizados")
 
+def put_buckets3_encryption(listed_buckets):
+    sseconfig={
+        'Rules': [
+            {
+                'ApplyServerSideEncryptionByDefault': {
+                    'SSEAlgorithm': 'aws:kms',
+                    'KMSMasterKeyID': 'arn:aws:kms:sa-east-1:842136179073:key/879e9022-e41a-4e25-b617-0f9e9e3c9c90'
+                },
+                'BucketKeyEnabled': True
+            },
+        ]
+    }
+    for name in listed_buckets:
+        response = clients3.put_bucket_encryption(Bucket=name, ServerSideEncryptionConfiguration=sseconfig)
+
+
 def put_buckets3_logging(bucket, bucket_log_name):
     bucket_logging_put = clients3.put_bucket_logging(
                 Bucket=bucket, 
@@ -58,5 +74,6 @@ if __name__ == "__main__":
     try:
         get_bucket_policy(listed_buckets)
     except:
-        put_buckets3_policy(listed_buckets)
+        put_buckets3_policy(listed_buckets)    
+    # put_buckets3_encryption(listed_buckets)
     get_buckets3_logging(listed_buckets)
